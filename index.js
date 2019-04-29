@@ -2,9 +2,42 @@
 
 // Imports dependencies and set up http server
 const
+  request = require('request'),
   express = require('express'),
   bodyParser = require('body-parser'),
   app = express().use(bodyParser.json()); // creates express http server
+
+app.get('/before', () => {
+
+});
+
+app.get('/during', () => {
+  // Construct the message body
+  let request_body = {
+    "messages": [{
+      "text": "Hurricane is COMING!"
+    }]
+  }
+
+  // Send the HTTP request to the Messenger Platform
+  request({
+    "uri": "https://graph.facebook.com/v3.2/me/message_creatives",
+    "qs": { "access_token": 'EAAIi3CJMbQkBACLJjN9eSr2j4qNZCDGzqZAxG3lRqqMAfQduaKrPA6zFNPQ2m43GRZC9fqxVlydBrf62IHZASmJi6TxyvT69o5KPOJrhZCfojRE4pYnrM05rBsr6X2tNouUZCVRwMh8o7vabuP17XfoMQfsASU1z1C34aEneWdnAZDZD' },
+    "method": "POST",
+    "json": request_body
+  }, (err, res, body) => {
+    if (!err) {
+      console.log(res);
+      console.log(body);
+    } else {
+      console.error("Unable to send message:" + err);
+    }
+  });
+});
+
+app.get('/after', () => {
+
+});
 
 // Adds support for GET requests to our webhook
 app.get('/webhook', (req, res) => {
