@@ -79,9 +79,75 @@ function sendMessage(message, recipientId) {
   }); 
 }
 
+function randomDate(start = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000), end = new Date()) {
+  return Math.floor(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
+}
+
 app.get('/', (req, res) => {
   res.status(200).send('Privacy Policy');
 });
+
+app.get('/requests', (req, res) => {
+  res.status(200).json({
+    data: [
+      {
+        id: 1,
+        name: 'Alejandro Moreno',
+        timestamp: randomDate(),
+        location: {
+          lat: '25.72627447',
+          long: '-80.30569867'
+        },
+        type: 'food',
+        message: 'I need food!',
+      },
+      {
+        id: 2,
+        name: 'Maria Fergieson',
+        timestamp: randomDate(),
+        location: {
+          lat: '25.77633542',
+          long: '-80.30405303'
+        },
+        type: 'injury',
+        message: 'HELP',
+      },
+      {
+        id: 3,
+        name: 'Garrett Malone',
+        timestamp: randomDate(),
+        location: {
+          lat: '25.80835172',
+          long: '-80.28071819'
+        },
+        type: 'injury',
+        message: 'Somebody hurt! We need help!',
+      },
+      {
+        id: 4,
+        name: 'Hassan Hopkins',
+        timestamp: randomDate(),
+        location: {
+          lat: '25.73730658',
+          long: '-80.25956455'
+        },
+        type: 'injury',
+        message: `I'm goint to die...`,
+      },
+      {
+        id: 5,
+        name: 'Clodagh Dunn',
+        timestamp: randomDate(),
+        location: {
+          lat: '25.71686706',
+          long: '-80.26698473'
+        },
+        type: 'water',
+        message: 'Send me water, please!',
+      }
+    ]
+  });
+})
 
 app.post('/notify', (req, res) => {
   const { type, payload } = req.body;
