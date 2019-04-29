@@ -92,7 +92,8 @@ const requests = [
     timestamp: randomDate(),
     location: {
       lat: '25.72627447',
-      long: '-80.30569867'
+      long: '-80.30569867',
+      address: 'Hilton Miami Downtown'
     },
     type: 'food',
     message: 'I need food!',
@@ -103,7 +104,8 @@ const requests = [
     timestamp: randomDate(),
     location: {
       lat: '25.77633542',
-      long: '-80.30405303'
+      long: '-80.30405303',
+      address: 'Kimpton EPIC Hotel'
     },
     type: 'injury',
     message: 'HELP',
@@ -114,7 +116,8 @@ const requests = [
     timestamp: randomDate(),
     location: {
       lat: '25.80835172',
-      long: '-80.28071819'
+      long: '-80.28071819',
+      address: 'Four Seasons Hotel Miami'
     },
     type: 'injury',
     message: 'Somebody hurt! We need help!',
@@ -125,7 +128,8 @@ const requests = [
     timestamp: randomDate(),
     location: {
       lat: '25.73730658',
-      long: '-80.25956455'
+      long: '-80.25956455',
+      address: 'Kimpton EPIC Hotel'
     },
     type: 'injury',
     message: `I'm goint to die...`,
@@ -136,7 +140,8 @@ const requests = [
     timestamp: randomDate(),
     location: {
       lat: '25.71686706',
-      long: '-80.26698473'
+      long: '-80.26698473',
+      address: 'Kimpton EPIC Hotel'
     },
     type: 'water',
     message: 'Send me water, please!',
@@ -314,7 +319,6 @@ Maria Fergieson is safe @San Jose McEnery Convention Center
           //     }
           //   }
           // }, sender_psid)
-          /*
           setTimeout(() => {
             sendMessage({
               text: `
@@ -328,13 +332,12 @@ We are going to create a chat group with your friends so that you can contact wi
             login({ email: EMAIL, password: PASSWORD }, (err, api) => {
               if(err) return console.error(err);
 
-              api.sendMessage('Hello, BeSAFE memebers!', ['100003075421393', '100004743062050', '660488518'], (err, messageInfo) => {
+              api.sendMessage('Is everybody okay? Let me know if you need any help!', ['100003075421393', '100004743062050', '660488518'], (err, messageInfo) => {
                 if(err) return console.error(err);
                 console.log(messageInfo);
               });
             });
           }, 4000)
-          */
         } else {
           if (!waitForMessage[sender_psid]) {
             sendMessage({
@@ -366,8 +369,9 @@ We are going to create a chat group with your friends so that you can contact wi
                   name: `${first_name} ${last_name}`,
                   timestamp: Date.now(),
                   location: {
-                    lat: '25.78733621',
-                    long: '-80.30794205'
+                    lat: '37.3302995',
+                    long: '-121.8893956',
+                    address: '135 W San Carlos St, San Jose, CA 95113'
                   },
                   type: 'others',
                   message: webhook_event.message.text,
