@@ -172,6 +172,7 @@ app.post('/notify', (req, res) => {
   } else if (type === 'message') {
     sendMessage(response, '2920433724641026');
   }
+  res.setHeader('Access-Control-Allow-Origin', '*');
 
   res.sendStatus(200);
 });
