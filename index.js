@@ -159,7 +159,32 @@ app.post('/webhook', (req, res) => {
 
           sendMessage(response, sender_psid)
           
-        }  
+        } else if (webhook_event.message.attachments) {
+          console.log(webhook_event.message.attachments[0]);
+          /* 
+          "title": "Facebook HQ",
+          "url": "https://www.facebook.com/l.php?u=https%....5-7Ocxrmg",
+          "type": "location",
+          "payload": {
+            "coordinates": {
+              "lat": 37.483872693672,
+              "long": -122.14900441942
+            }
+          }
+          */
+          sendMessage({
+            text: 'You are near the hurricane!'
+          }, sender_psid);
+          sendMessage({
+            text: `Take the advice of local authorities. Evacuate if ordered.
+            If an evacuation is necessary, unplug all appliances, TV's and computers before leaving your home.
+            If possible, move important items to a higher floor or surface such as a counter or shelf to protect expensive equipment from flooding. Remove fuses from the air conditioning system to prevent damage.
+            Turn off water to prevent flooding from broken pipes.
+            Turn off gas to prevent leaks from occurring.
+            Ensure your car is in good running condition and has a full tank of gas, extra emergency supplies and a change of clothes.
+            Determine escape routes from your home and a nearby place to meet with loved ones. These should be measured in tens of miles when possible`
+          }, sender_psid)
+        }
       } else if (webhook_event.postback) {
         // handlePostback(sender_psid, webhook_event.postback);
       }
