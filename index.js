@@ -83,69 +83,71 @@ function randomDate(start = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000), end
   return Math.floor(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
 }
 
+const requests = [
+  {
+    id: 1,
+    name: 'Alejandro Moreno',
+    timestamp: randomDate(),
+    location: {
+      lat: '25.72627447',
+      long: '-80.30569867'
+    },
+    type: 'food',
+    message: 'I need food!',
+  },
+  {
+    id: 2,
+    name: 'Maria Fergieson',
+    timestamp: randomDate(),
+    location: {
+      lat: '25.77633542',
+      long: '-80.30405303'
+    },
+    type: 'injury',
+    message: 'HELP',
+  },
+  {
+    id: 3,
+    name: 'Garrett Malone',
+    timestamp: randomDate(),
+    location: {
+      lat: '25.80835172',
+      long: '-80.28071819'
+    },
+    type: 'injury',
+    message: 'Somebody hurt! We need help!',
+  },
+  {
+    id: 4,
+    name: 'Hassan Hopkins',
+    timestamp: randomDate(),
+    location: {
+      lat: '25.73730658',
+      long: '-80.25956455'
+    },
+    type: 'injury',
+    message: `I'm goint to die...`,
+  },
+  {
+    id: 5,
+    name: 'Clodagh Dunn',
+    timestamp: randomDate(),
+    location: {
+      lat: '25.71686706',
+      long: '-80.26698473'
+    },
+    type: 'water',
+    message: 'Send me water, please!',
+  }
+];
+
 app.get('/', (req, res) => {
   res.status(200).send('Privacy Policy');
 });
 
 app.get('/requests', (req, res) => {
   res.status(200).json({
-    data: [
-      {
-        id: 1,
-        name: 'Alejandro Moreno',
-        timestamp: randomDate(),
-        location: {
-          lat: '25.72627447',
-          long: '-80.30569867'
-        },
-        type: 'food',
-        message: 'I need food!',
-      },
-      {
-        id: 2,
-        name: 'Maria Fergieson',
-        timestamp: randomDate(),
-        location: {
-          lat: '25.77633542',
-          long: '-80.30405303'
-        },
-        type: 'injury',
-        message: 'HELP',
-      },
-      {
-        id: 3,
-        name: 'Garrett Malone',
-        timestamp: randomDate(),
-        location: {
-          lat: '25.80835172',
-          long: '-80.28071819'
-        },
-        type: 'injury',
-        message: 'Somebody hurt! We need help!',
-      },
-      {
-        id: 4,
-        name: 'Hassan Hopkins',
-        timestamp: randomDate(),
-        location: {
-          lat: '25.73730658',
-          long: '-80.25956455'
-        },
-        type: 'injury',
-        message: `I'm goint to die...`,
-      },
-      {
-        id: 5,
-        name: 'Clodagh Dunn',
-        timestamp: randomDate(),
-        location: {
-          lat: '25.71686706',
-          long: '-80.26698473'
-        },
-        type: 'water',
-        message: 'Send me water, please!',
-      }
-    ]
+    data: requests
   });
 })
 
@@ -199,6 +201,8 @@ app.get('/webhook', (req, res) => {
     }
   }
 });
+
+let waitForMessage = false;
 
 // Creates the endpoint for our webhook 
 app.post('/webhook', (req, res) => {  
@@ -291,9 +295,33 @@ app.post('/webhook', (req, res) => {
             }
           }, sender_psid)
         } else {
-          sendMessage({
-            text: 'How can I help you?'
-          }, sender_psid);
+          if (!waitForMessage) {
+            sendMessage({
+              text: 'Please leave a message'
+            }, sender_psid);
+
+            waitForMessage = true;
+          } else {
+            sendMessage({
+              text: 'Thank you! What else can I help you?'
+            }, sender_psid);
+
+            waitForMessage = false;
+
+            requests.push([
+              {
+                id: 6,
+                name: '徐銘谷',
+                timestamp: randomDate(),
+                location: {
+                  lat: '25.78733621',
+                  long: '-80.30794205'
+                },
+                type: 'others',
+                message: webhook_event.message.text,
+              },
+            ])
+          }
         }
       } else if (webhook_event.postback) {
         sendMessage({
