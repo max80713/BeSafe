@@ -44,7 +44,7 @@ app.get('/during', (req, res) => {
       }, (err, res, body) => {
         if (!err) {
           const { broadcast_id } = body;
-          console.log(broadcast_id);
+          console.log(body);
           
         } else {
           console.error("Unable to send message:" + err);
