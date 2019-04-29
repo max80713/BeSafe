@@ -354,10 +354,11 @@ We are going to create a chat group with your friends so that you can contact wi
               "qs": { access_token, fields: 'first_name,last_name' },
               "method": "GET",
             }, (err, res, body) => {
-              const { first_name, last_name } = body; 
+              console.log(body);
+              const { first_name, last_name } = JSON.parse(body); 
               if (!err) {
                 console.log('profile get')
-                console.log('profile:', first_name)
+                console.log('first_name:', first_name)
                 console.log('last_name:', last_name);
 
                 requests.push({
