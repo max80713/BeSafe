@@ -111,7 +111,42 @@ app.post('/webhook', (req, res) => {
       // Gets the message. entry.messaging is an array, but 
       // will only ever contain one message, so we get index 0
       let webhook_event = entry.messaging[0];
-      console.log(webhook_event);
+      let sender_psid = webhook_event.sender.id;
+      if (webhook_event.message) {
+        let response;
+
+        // Check if the message contains text
+        if (webhook_event.message.text === 'Where are you?') {    
+
+          // Create the payload for a basic text message
+          response = {
+            "text": 'Miami'
+          }
+
+          let request_body = {
+            "recipient": {
+              "id": sender_psid
+            },
+            "message": response
+          }
+        
+          // Send the HTTP request to the Messenger Platform
+          request({
+            "uri": "https://graph.facebook.com/v2.6/me/messages",
+            "qs": { access_token },
+            "method": "POST",
+            "json": request_body
+          }, (err, res, body) => {
+            if (!err) {
+              console.log('message sent!')
+            } else {
+              console.error("Unable to send message:" + err);
+            }
+          }); 
+        }  
+      } else if (webhook_event.postback) {
+        handlePostback(sender_psid, webhook_event.postback);
+      }
     });
 
     // Returns a '200 OK' response to all requests
