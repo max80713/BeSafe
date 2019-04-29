@@ -86,10 +86,21 @@ app.get('/', (req, res) => {
 app.post('/notify', (req, res) => {
   const { type, payload } = req.body;
 
+  const recipientId = '2920433724641026';
   if (type === 'disaster') {
-    broadcastMessage(payload);
+    sendMessage({
+      text: payload
+    }, recipientId);
+    sendMessage({
+      text: "Where are you?",
+      quick_replies: [
+        {
+          "content_type":"location"
+        }
+      ]
+    }, recipientId);
   } else if (type === 'message') {
-    broadcastMessage(payload);
+    sendMessage(response, '2920433724641026');
   }
 
   res.sendStatus(200);
