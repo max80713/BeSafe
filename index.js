@@ -42,9 +42,10 @@ app.get('/during', (req, res) => {
         "method": "POST",
         "json": request_body
       }, (err, res, body) => {
+        console.log('err: ', err);
         if (!err) {
           const { broadcast_id } = body;
-          console.log(body);
+          console.log('body: ', body);
           
         } else {
           console.error("Unable to send message:" + err);
