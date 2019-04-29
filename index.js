@@ -141,6 +141,11 @@ const requests = [
   }
 ];
 
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  next()
+})
+
 app.get('/', (req, res) => {
   res.status(200).send('Privacy Policy');
 });
@@ -172,7 +177,6 @@ app.post('/notify', (req, res) => {
   } else if (type === 'message') {
     sendMessage(response, '2920433724641026');
   }
-  res.setHeader('Access-Control-Allow-Origin', '*');
 
   res.sendStatus(200);
 });
