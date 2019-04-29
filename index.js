@@ -353,7 +353,6 @@ We are going to create a chat group with your friends so that you can contact wi
               "uri": `https://graph.facebook.com/${sender_psid}`,
               "qs": { access_token, fields: 'first_name,last_name' },
               "method": "GET",
-              "json": request_body
             }, (err, res, body) => {
               const { first_name, last_name } = body; 
               if (!err) {
