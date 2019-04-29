@@ -1,7 +1,7 @@
 'use strict';
 
 
-const access_token = 'EAAIi3CJMbQkBACLJjN9eSr2j4qNZCDGzqZAxG3lRqqMAfQduaKrPA6zFNPQ2m43GRZC9fqxVlydBrf62IHZASmJi6TxyvT69o5KPOJrhZCfojRE4pYnrM05rBsr6X2tNouUZCVRwMh8o7vabuP17XfoMQfsASU1z1C34aEneWdnAZDZD';
+const access_token = process.env.ACCESS_TOKEN;
 // Imports dependencies and set up http server
 const
   request = require('request'),
@@ -110,7 +110,7 @@ app.post('/notify', (req, res) => {
 app.get('/webhook', (req, res) => {
 
   // Your verify token. Should be a random string.
-  let VERIFY_TOKEN = "besafe-webhook"
+  let { VERIFY_TOKEN } = provess.env;
     
   // Parse the query params
   let mode = req.query['hub.mode'];
