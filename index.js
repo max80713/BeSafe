@@ -184,8 +184,15 @@ app.post('/webhook', (req, res) => {
             Ensure your car is in good running condition and has a full tank of gas, extra emergency supplies and a change of clothes.
             Determine escape routes from your home and a nearby place to meet with loved ones. These should be measured in tens of miles when possible`
           }, sender_psid)
+        } else {
+          sendMessage({
+            text: 'How can I help you?'
+          }, sender_psid);
         }
       } else if (webhook_event.postback) {
+        sendMessage({
+          text: 'How can I help you?'
+        }, sender_psid);
         // handlePostback(sender_psid, webhook_event.postback);
       }
     });
