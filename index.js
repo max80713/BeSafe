@@ -1,11 +1,17 @@
 'use strict';
 
+
+const access_token = 'EAAIi3CJMbQkBACLJjN9eSr2j4qNZCDGzqZAxG3lRqqMAfQduaKrPA6zFNPQ2m43GRZC9fqxVlydBrf62IHZASmJi6TxyvT69o5KPOJrhZCfojRE4pYnrM05rBsr6X2tNouUZCVRwMh8o7vabuP17XfoMQfsASU1z1C34aEneWdnAZDZD';
 // Imports dependencies and set up http server
 const
   request = require('request'),
   express = require('express'),
   bodyParser = require('body-parser'),
   app = express().use(bodyParser.json()); // creates express http server
+
+app.get('/', (req, res) => {
+  res.status(200).send('Privacy Policy');
+});
 
 app.get('/before', () => {
 
@@ -22,7 +28,7 @@ app.get('/during', (req, res) => {
   // Send the HTTP request to the Messenger Platform
   request({
     "uri": "https://graph.facebook.com/v3.2/me/message_creatives",
-    "qs": { "access_token": 'EAAIi3CJMbQkBACLJjN9eSr2j4qNZCDGzqZAxG3lRqqMAfQduaKrPA6zFNPQ2m43GRZC9fqxVlydBrf62IHZASmJi6TxyvT69o5KPOJrhZCfojRE4pYnrM05rBsr6X2tNouUZCVRwMh8o7vabuP17XfoMQfsASU1z1C34aEneWdnAZDZD' },
+    "qs": { access_token },
     "method": "POST",
     "json": request_body
   }, (err, res, body) => {
@@ -38,7 +44,7 @@ app.get('/during', (req, res) => {
 
       request({
         "uri": "https://graph.facebook.com/v3.2/me/broadcast_messages",
-        "qs": { "access_token": 'EAAIi3CJMbQkBACLJjN9eSr2j4qNZCDGzqZAxG3lRqqMAfQduaKrPA6zFNPQ2m43GRZC9fqxVlydBrf62IHZASmJi6TxyvT69o5KPOJrhZCfojRE4pYnrM05rBsr6X2tNouUZCVRwMh8o7vabuP17XfoMQfsASU1z1C34aEneWdnAZDZD' },
+        "qs": { access_token },
         "method": "POST",
         "json": request_body
       }, (err, res, body) => {
