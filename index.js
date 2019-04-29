@@ -176,7 +176,9 @@ app.post('/notify', (req, res) => {
       }, recipientId);
     }, 1000);
   } else if (type === 'message') {
-    sendMessage(response, '2920433724641026');
+    sendMessage({
+      text: payload
+    }, recipientId);
   }
 
   res.sendStatus(200);
