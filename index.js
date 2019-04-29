@@ -9,23 +9,13 @@ const
   bodyParser = require('body-parser'),
   app = express().use(bodyParser.json()); // creates express http server
 
-app.get('/', (req, res) => {
-  res.status(200).send('Privacy Policy');
-});
-
-app.get('/before', () => {
-
-});
-
-app.get('/during', (req, res) => {
-  // Construct the message body
+function broadcastMessage(textMessage) {
   let request_body = {
     "messages": [{
-      "text": "Hurricane is COMING!"
+      "text": textMessage
     }]
   }
 
-  // Send the HTTP request to the Messenger Platform
   request({
     "uri": "https://graph.facebook.com/v3.2/me/message_creatives",
     "qs": { access_token },
@@ -34,7 +24,8 @@ app.get('/during', (req, res) => {
   }, (err, res, body) => {
     if (!err) {
       const { message_creative_id } = body;
-      console.log(message_creative_id);
+      console.log('broadcast message created');
+      console.log('message_creative_id: ', message_creative_id);
 
       request_body = {
         message_creative_id,
@@ -48,10 +39,10 @@ app.get('/during', (req, res) => {
         "method": "POST",
         "json": request_body
       }, (err, res, body) => {
-        console.log('err: ', err);
         if (!err) {
           const { broadcast_id } = body;
-          console.log('body: ', body);
+          console.log('broadcast message sent');
+          console.log('broadcast_id: ', broadcast_id);
           
         } else {
           console.error("Unable to send message:" + err);
@@ -61,12 +52,47 @@ app.get('/during', (req, res) => {
       console.error("Unable to create message:" + err);
     }
   });
+}
 
-  res.sendStatus(200);
+function sendMessage(message, recipientId) {
+  let request_body = {
+    "recipient": {
+      "id": recipientId
+    },
+    message
+  }
+
+  // Send the HTTP request to the Messenger Platform
+  request({
+    "uri": "https://graph.facebook.com/v2.6/me/messages",
+    "qs": { access_token },
+    "method": "POST",
+    "json": request_body
+  }, (err, res, body) => {
+    if (!err) {
+      console.log('message sent')
+      console.log('message:', message)
+      console.log('recipientId:', recipientId);
+    } else {
+      console.error("Unable to send message:" + err);
+    }
+  }); 
+}
+
+app.get('/', (req, res) => {
+  res.status(200).send('Privacy Policy');
 });
 
-app.get('/after', () => {
+app.post('/notify', (req, res) => {
+  const { type, payload } = req.body;
 
+  if (type === 'disaster') {
+    broadcastMessage(payload);
+  } else if (type === 'message') {
+    broadcastMessage(payload);
+  }
+
+  res.sendStatus(200);
 });
 
 // Adds support for GET requests to our webhook
@@ -100,7 +126,7 @@ app.get('/webhook', (req, res) => {
 // Creates the endpoint for our webhook 
 app.post('/webhook', (req, res) => {  
  
-  let body = req.body;
+  const { body } = req;
 
   // Checks this is an event from a page subscription
   if (body.object === 'page') {
@@ -110,42 +136,21 @@ app.post('/webhook', (req, res) => {
 
       // Gets the message. entry.messaging is an array, but 
       // will only ever contain one message, so we get index 0
-      let webhook_event = entry.messaging[0];
-      let sender_psid = webhook_event.sender.id;
+      const webhook_event = entry.messaging[0];
+      const sender_psid = webhook_event.sender.id;
       if (webhook_event.message) {
-        let response;
-
+        console.log('message received')
         // Check if the message contains text
-        if (webhook_event.message.text === 'Where are you?') {    
-
-          // Create the payload for a basic text message
-          response = {
-            "text": 'Miami'
+        if (webhook_event.message.text === 'Where are you?') { 
+          const response = {
+            text: 'Miami'
           }
 
-          let request_body = {
-            "recipient": {
-              "id": sender_psid
-            },
-            "message": response
-          }
-        
-          // Send the HTTP request to the Messenger Platform
-          request({
-            "uri": "https://graph.facebook.com/v2.6/me/messages",
-            "qs": { access_token },
-            "method": "POST",
-            "json": request_body
-          }, (err, res, body) => {
-            if (!err) {
-              console.log('message sent!')
-            } else {
-              console.error("Unable to send message:" + err);
-            }
-          }); 
+          sendMessage(response, sender_psid)
+          
         }  
       } else if (webhook_event.postback) {
-        handlePostback(sender_psid, webhook_event.postback);
+        // handlePostback(sender_psid, webhook_event.postback);
       }
     });
 
@@ -155,7 +160,6 @@ app.post('/webhook', (req, res) => {
     // Returns a '404 Not Found' if event is not from a page subscription
     res.sendStatus(404);
   }
-
 });
 
 // Sets server port and logs message on success
