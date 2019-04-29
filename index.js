@@ -11,7 +11,7 @@ app.get('/before', () => {
 
 });
 
-app.get('/during', () => {
+app.get('/during', (req, res) => {
   // Construct the message body
   let request_body = {
     "messages": [{
@@ -27,12 +27,35 @@ app.get('/during', () => {
     "json": request_body
   }, (err, res, body) => {
     if (!err) {
-      console.log(res);
-      console.log(body);
+      const { message_creative_id } = body;
+      console.log(message_creative_id);
+
+      request_body = {
+        message_creative_id,
+        "messaging_type": "MESSAGE_TAG",
+        "tag": "NON_PROMOTIONAL_SUBSCRIPTION"
+      };
+
+      request({
+        "uri": "https://graph.facebook.com/v3.2/me/broadcast_messages",
+        "qs": { "access_token": 'EAAIi3CJMbQkBACLJjN9eSr2j4qNZCDGzqZAxG3lRqqMAfQduaKrPA6zFNPQ2m43GRZC9fqxVlydBrf62IHZASmJi6TxyvT69o5KPOJrhZCfojRE4pYnrM05rBsr6X2tNouUZCVRwMh8o7vabuP17XfoMQfsASU1z1C34aEneWdnAZDZD' },
+        "method": "POST",
+        "json": request_body
+      }, (err, res, body) => {
+        if (!err) {
+          const { broadcast_id } = body;
+          console.log(broadcast_id);
+          
+        } else {
+          console.error("Unable to send message:" + err);
+        }
+      });
     } else {
-      console.error("Unable to send message:" + err);
+      console.error("Unable to create message:" + err);
     }
   });
+
+  res.sendStatus(200);
 });
 
 app.get('/after', () => {
