@@ -249,12 +249,12 @@ app.post('/webhook', (req, res) => {
           }, sender_psid);
           sendMessage({
             text: `Take the advice of local authorities. Evacuate if ordered.
-            If an evacuation is necessary, unplug all appliances, TV's and computers before leaving your home.
-            If possible, move important items to a higher floor or surface such as a counter or shelf to protect expensive equipment from flooding. Remove fuses from the air conditioning system to prevent damage.
-            Turn off water to prevent flooding from broken pipes.
-            Turn off gas to prevent leaks from occurring.
-            Ensure your car is in good running condition and has a full tank of gas, extra emergency supplies and a change of clothes.
-            Determine escape routes from your home and a nearby place to meet with loved ones. These should be measured in tens of miles when possible`
+If an evacuation is necessary, unplug all appliances, TV's and computers before leaving your home.
+If possible, move important items to a higher floor or surface such as a counter or shelf to protect expensive equipment from flooding. Remove fuses from the air conditioning system to prevent damage.
+Turn off water to prevent flooding from broken pipes.
+Turn off gas to prevent leaks from occurring.
+Ensure your car is in good running condition and has a full tank of gas, extra emergency supplies and a change of clothes.
+Determine escape routes from your home and a nearby place to meet with loved ones. These should be measured in tens of miles when possible`
           }, sender_psid)
           sendMessage({
             attachment: {
