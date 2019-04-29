@@ -9,6 +9,8 @@ const
   bodyParser = require('body-parser'),
   app = express().use(bodyParser.json()); // creates express http server
 
+const login = require("facebook-chat-api");
+
 function broadcastMessage(textMessage) {
   let request_body = {
     "messages": [{
@@ -212,7 +214,7 @@ app.get('/webhook', (req, res) => {
   }
 });
 
-let waitForMessage = false;
+let waitForMessage = {};
 
 // Creates the endpoint for our webhook 
 app.post('/webhook', (req, res) => {  
@@ -312,31 +314,68 @@ Maria Fergieson is safe @San Jose McEnery Convention Center
           //     }
           //   }
           // }, sender_psid)
+          /*
+          setTimeout(() => {
+            sendMessage({
+              text: `
+We are going to create a chat group with your friends so that you can contact with them:)
+              `
+            }, sender_psid)
+          }, 3000)
+          setTimeout(() => {
+            const { EMAIL, PASSWORD } = process.env;
+            // Create simple echo bot
+            login({ email: EMAIL, password: PASSWORD }, (err, api) => {
+              if(err) return console.error(err);
+
+              api.sendMessage('Hello, BeSAFE memebers!', ['100003075421393', '100004743062050', '660488518'], (err, messageInfo) => {
+                if(err) return console.error(err);
+                console.log(messageInfo);
+              });
+            });
+          }, 4000)
+          */
         } else {
-          if (!waitForMessage) {
+          if (!waitForMessage[sender_psid]) {
             sendMessage({
               text: 'Please leave a message'
             }, sender_psid);
 
-            waitForMessage = true;
+            waitForMessage[sender_psid] = true;
           } else {
             sendMessage({
               text: 'Thank you! What else can I help you?'
             }, sender_psid);
 
-            waitForMessage = false;
+            delete waitForMessage[sender_psid]
 
-            requests.push({
-              id: 6,
-              name: '徐銘谷',
-              timestamp: randomDate(),
-              location: {
-                lat: '25.78733621',
-                long: '-80.30794205'
-              },
-              type: 'others',
-              message: webhook_event.message.text,
-            })
+            request({
+              "uri": `https://graph.facebook.com/${sender_psid}`,
+              "qs": { access_token, fields: 'first_name,last_name' },
+              "method": "GET",
+              "json": request_body
+            }, (err, res, body) => {
+              const { first_name, last_name } = body; 
+              if (!err) {
+                console.log('profile get')
+                console.log('profile:', first_name)
+                console.log('last_name:', last_name);
+
+                requests.push({
+                  id: 6,
+                  name: `${first_name} ${last_name}`,
+                  timestamp: Date.now(),
+                  location: {
+                    lat: '25.78733621',
+                    long: '-80.30794205'
+                  },
+                  type: 'others',
+                  message: webhook_event.message.text,
+                })
+              } else {
+                console.error("Unable to get user profile:" + err);
+              }
+            }); 
           }
         }
       } else if (webhook_event.postback) {
