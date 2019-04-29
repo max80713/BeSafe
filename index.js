@@ -312,19 +312,19 @@ app.post('/webhook', (req, res) => {
               text: 'You are near the hurricane!'
             }, sender_psid);
             typingOn(sender_psid);
-          }, 2000)
+          }, 3000)
           setTimeout(() => {
             sendMessage({
               text: `Take the advice of local authorities. Evacuate if ordered.
-  If an evacuation is necessary, unplug all appliances, TV's and computers before leaving your home.
-  If possible, move important items to a higher floor or surface such as a counter or shelf to protect expensive equipment from flooding. Remove fuses from the air conditioning system to prevent damage.
-  Turn off water to prevent flooding from broken pipes.
-  Turn off gas to prevent leaks from occurring.
-  Ensure your car is in good running condition and has a full tank of gas, extra emergency supplies and a change of clothes.
-  Determine escape routes from your home and a nearby place to meet with loved ones. These should be measured in tens of miles when possible`
+If an evacuation is necessary, unplug all appliances, TV's and computers before leaving your home.
+If possible, move important items to a higher floor or surface such as a counter or shelf to protect expensive equipment from flooding. Remove fuses from the air conditioning system to prevent damage.
+Turn off water to prevent flooding from broken pipes.
+Turn off gas to prevent leaks from occurring.
+Ensure your car is in good running condition and has a full tank of gas, extra emergency supplies and a change of clothes.
+Determine escape routes from your home and a nearby place to meet with loved ones. These should be measured in tens of miles when possible`
             }, sender_psid)
             typingOn(sender_psid);
-          }, 4000)
+          }, 6000)
           setTimeout(() => {
             sendMessage({
               text: `
@@ -333,7 +333,7 @@ Maria Fergieson is safe @San Jose McEnery Convention Center
               `
             }, sender_psid)
             typingOn(sender_psid);
-          }, 6000)
+          }, 9000)
           // sendMessage({
           //   attachment: {
           //     "type": "template",
@@ -379,7 +379,7 @@ We are going to create a chat group with your friends so that you can contact wi
               `
             }, sender_psid)
             typingOn(sender_psid);
-          }, 8000)
+          }, 12000)
           setTimeout(() => {
             const { EMAIL, PASSWORD } = process.env;
             // Create simple echo bot
@@ -391,7 +391,7 @@ We are going to create a chat group with your friends so that you can contact wi
                 console.log(messageInfo);
               });
             });
-          }, 10000)
+          }, 15000)
         } else {
           if (!waitForMessage[sender_psid]) {
             sendMessage({
@@ -419,7 +419,7 @@ We are going to create a chat group with your friends so that you can contact wi
                 console.log('last_name:', last_name);
 
                 requests.push({
-                  id: 6,
+                  id: requests.length + 1,
                   name: `${first_name} ${last_name}`,
                   timestamp: Date.now(),
                   location: {
