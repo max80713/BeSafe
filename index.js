@@ -159,14 +159,16 @@ app.post('/notify', (req, res) => {
     sendMessage({
       text: payload
     }, recipientId);
-    sendMessage({
-      text: "Where are you?",
-      quick_replies: [
-        {
-          "content_type":"location"
-        }
-      ]
-    }, recipientId);
+    setTimeout(() => {
+      sendMessage({
+        text: "Where are you?",
+        quick_replies: [
+          {
+            "content_type":"location"
+          }
+        ]
+      }, recipientId);
+    }, 1000);
   } else if (type === 'message') {
     sendMessage(response, '2920433724641026');
   }
@@ -308,19 +310,17 @@ app.post('/webhook', (req, res) => {
 
             waitForMessage = false;
 
-            requests.push([
-              {
-                id: 6,
-                name: '徐銘谷',
-                timestamp: randomDate(),
-                location: {
-                  lat: '25.78733621',
-                  long: '-80.30794205'
-                },
-                type: 'others',
-                message: webhook_event.message.text,
+            requests.push({
+              id: 6,
+              name: '徐銘谷',
+              timestamp: randomDate(),
+              location: {
+                lat: '25.78733621',
+                long: '-80.30794205'
               },
-            ])
+              type: 'others',
+              message: webhook_event.message.text,
+            })
           }
         }
       } else if (webhook_event.postback) {
