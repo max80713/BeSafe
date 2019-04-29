@@ -247,55 +247,63 @@ app.post('/webhook', (req, res) => {
           sendMessage({
             text: 'You are near the hurricane!'
           }, sender_psid);
-          sendMessage({
-            text: `Take the advice of local authorities. Evacuate if ordered.
-If an evacuation is necessary, unplug all appliances, TV's and computers before leaving your home.
-If possible, move important items to a higher floor or surface such as a counter or shelf to protect expensive equipment from flooding. Remove fuses from the air conditioning system to prevent damage.
-Turn off water to prevent flooding from broken pipes.
-Turn off gas to prevent leaks from occurring.
-Ensure your car is in good running condition and has a full tank of gas, extra emergency supplies and a change of clothes.
-Determine escape routes from your home and a nearby place to meet with loved ones. These should be measured in tens of miles when possible`
-          }, sender_psid)
-          sendMessage({
-            attachment: {
-              "type": "template",
-              "payload": {
-                "template_type": "list",
-                "top_element_style": "compact",
-                "elements": [
-                  {
-                    "title": "Quang Ngoc",
-                    "subtitle": "Safe @San Jose McEnery Convention Center",
-                    "image_url": "https://scontent-sjc3-1.xx.fbcdn.net/v/t1.0-1/p320x320/52585213_1951969804915515_4222149892182638592_n.jpg?_nc_cat=111&_nc_ht=scontent-sjc3-1.xx&oh=d390db93f5df74da573a1b9e981a71ef&oe=5D34BD14",          
-                    "default_action": {
-                      "type": "web_url",
-                      "url": "https://www.facebook.com/qn.khuat",
-                      "messenger_extensions": true,
-                      "webview_height_ratio": "tall"
-                    }
-                  },
-                  {
-                    "title": "Phong Vũ",
-                    "subtitle": "In danger @Miami Beach",
-                    "image_url": "https://scontent-sjc3-1.xx.fbcdn.net/v/t1.0-1/p320x320/50442205_10156196260348519_917678904490065920_n.jpg?_nc_cat=104&_nc_ht=scontent-sjc3-1.xx&oh=2c6584304db5ff939b4965b0b5238b30&oe=5D2CB267",          
-                    "default_action": {
-                      "type": "web_url",
-                      "url": "https://www.facebook.com/iphongx",
-                      "messenger_extensions": true,
-                      "webview_height_ratio": "tall"
-                    }
-                  },
-                ],
-                  "buttons": [
-                  {
-                    "title": "Show More Friends",
-                    "type": "postback",
-                    "payload": "show_more_friends"            
-                  }
-                ]  
-              }
-            }
-          }, sender_psid)
+          setTimeout(() => {
+            sendMessage({
+              text: `Take the advice of local authorities. Evacuate if ordered.
+  If an evacuation is necessary, unplug all appliances, TV's and computers before leaving your home.
+  If possible, move important items to a higher floor or surface such as a counter or shelf to protect expensive equipment from flooding. Remove fuses from the air conditioning system to prevent damage.
+  Turn off water to prevent flooding from broken pipes.
+  Turn off gas to prevent leaks from occurring.
+  Ensure your car is in good running condition and has a full tank of gas, extra emergency supplies and a change of clothes.
+  Determine escape routes from your home and a nearby place to meet with loved ones. These should be measured in tens of miles when possible`
+            }, sender_psid)
+          }, 1000)
+          setTimeout(() => {
+            sendMessage({
+              text: `
+Alejandro Moreno is in danger @Miami Beach
+Maria Fergieson is safe @San Jose McEnery Convention Center
+              `
+            }, sender_psid)
+          }, 2000)
+          // sendMessage({
+          //   attachment: {
+          //     "type": "template",
+          //     "payload": {
+          //       "template_type": "list",
+          //       "top_element_style": "compact",
+          //       "elements": [
+          //         {
+          //           "title": "Quang Ngoc",
+          //           "subtitle": "Safe @San Jose McEnery Convention Center",
+          //           "image_url": "https://scontent-sjc3-1.xx.fbcdn.net/v/t1.0-1/p320x320/52585213_1951969804915515_4222149892182638592_n.jpg?_nc_cat=111&_nc_ht=scontent-sjc3-1.xx&oh=d390db93f5df74da573a1b9e981a71ef&oe=5D34BD14",          
+          //           "default_action": {
+          //             "type": "web_url",
+          //             "url": "https://www.facebook.com/qn.khuat",
+          //             "messenger_extensions": true,
+          //             "webview_height_ratio": "tall"
+          //           }
+          //         },
+          //         {
+          //           "title": "Phong Vũ",
+          //           "subtitle": "In danger @Miami Beach",
+          //           "image_url": "https://scontent-sjc3-1.xx.fbcdn.net/v/t1.0-1/p320x320/50442205_10156196260348519_917678904490065920_n.jpg?_nc_cat=104&_nc_ht=scontent-sjc3-1.xx&oh=2c6584304db5ff939b4965b0b5238b30&oe=5D2CB267",          
+          //           "default_action": {
+          //             "type": "web_url",
+          //             "url": "https://www.facebook.com/iphongx",
+          //             "messenger_extensions": true,
+          //             "webview_height_ratio": "tall"
+          //           }
+          //         },
+          //       ],
+          //       "buttons": [{
+          //         "title": "Show More Friends",
+          //         "type": "postback",
+          //         "payload": "show_more_friends"            
+          //       }]  
+          //     }
+          //   }
+          // }, sender_psid)
         } else {
           if (!waitForMessage) {
             sendMessage({
