@@ -81,6 +81,52 @@ function sendMessage(message, recipientId) {
   }); 
 }
 
+function typingOn(recipientId) {
+  let request_body = {
+    "recipient": {
+      "id": recipientId
+    },
+    sender_action: 'typing_on'
+  }
+
+  // Send the HTTP request to the Messenger Platform
+  request({
+    "uri": "https://graph.facebook.com/v2.6/me/messages",
+    "qs": { access_token },
+    "method": "POST",
+    "json": request_body
+  }, (err, res, body) => {
+    if (!err) {
+      console.log('Sender action set')
+    } else {
+      console.error("Unable to set sender action:" + err);
+    }
+  }); 
+}
+
+function typingOff() {
+  let request_body = {
+    "recipient": {
+      "id": recipientId
+    },
+    sender_action: 'typing_off'
+  }
+
+  // Send the HTTP request to the Messenger Platform
+  request({
+    "uri": "https://graph.facebook.com/v2.6/me/messages",
+    "qs": { access_token },
+    "method": "POST",
+    "json": request_body
+  }, (err, res, body) => {
+    if (!err) {
+      console.log('Sender action set')
+    } else {
+      console.error("Unable to set sender action:" + err);
+    }
+  }); 
+}
+
 function randomDate(start = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000), end = new Date()) {
   return Math.floor(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
 }
@@ -172,6 +218,7 @@ app.post('/notify', (req, res) => {
     sendMessage({
       text: payload
     }, recipientId);
+    typingOn(recipientId);
     setTimeout(() => {
       sendMessage({
         text: "Where are you?",
@@ -181,7 +228,7 @@ app.post('/notify', (req, res) => {
           }
         ]
       }, recipientId);
-    }, 1000);
+    }, 2000);
   } else if (type === 'message') {
     sendMessage({
       text: payload
@@ -236,6 +283,7 @@ app.post('/webhook', (req, res) => {
       // will only ever contain one message, so we get index 0
       const webhook_event = entry.messaging[0];
       const sender_psid = webhook_event.sender.id;
+      typingOn(sender_psid)
       if (webhook_event.message) {
         console.log('message received')
         // Check if the message contains text
@@ -259,9 +307,12 @@ app.post('/webhook', (req, res) => {
             }
           }
           */
-          sendMessage({
-            text: 'You are near the hurricane!'
-          }, sender_psid);
+          setTimeout(() => {
+            sendMessage({
+              text: 'You are near the hurricane!'
+            }, sender_psid);
+            typingOn(sender_psid);
+          }, 2000)
           setTimeout(() => {
             sendMessage({
               text: `Take the advice of local authorities. Evacuate if ordered.
@@ -272,7 +323,8 @@ app.post('/webhook', (req, res) => {
   Ensure your car is in good running condition and has a full tank of gas, extra emergency supplies and a change of clothes.
   Determine escape routes from your home and a nearby place to meet with loved ones. These should be measured in tens of miles when possible`
             }, sender_psid)
-          }, 1000)
+            typingOn(sender_psid);
+          }, 4000)
           setTimeout(() => {
             sendMessage({
               text: `
@@ -280,7 +332,8 @@ Alejandro Moreno is in danger @Miami Beach
 Maria Fergieson is safe @San Jose McEnery Convention Center
               `
             }, sender_psid)
-          }, 2000)
+            typingOn(sender_psid);
+          }, 6000)
           // sendMessage({
           //   attachment: {
           //     "type": "template",
@@ -325,7 +378,8 @@ Maria Fergieson is safe @San Jose McEnery Convention Center
 We are going to create a chat group with your friends so that you can contact with them:)
               `
             }, sender_psid)
-          }, 3000)
+            typingOn(sender_psid);
+          }, 8000)
           setTimeout(() => {
             const { EMAIL, PASSWORD } = process.env;
             // Create simple echo bot
@@ -337,7 +391,7 @@ We are going to create a chat group with your friends so that you can contact wi
                 console.log(messageInfo);
               });
             });
-          }, 4000)
+          }, 10000)
         } else {
           if (!waitForMessage[sender_psid]) {
             sendMessage({
