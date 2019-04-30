@@ -323,31 +323,31 @@ app.post('/webhook', (req, res) => {
           setTimeout(() => {
             sendMessage({
               text: '* Locate a safe room or the safest areas of your home or for each hurricane hazard.'
-            })
+            }, sender_psid)
             typingOn(sender_psid);
           }, 4000);
           setTimeout(() => {
             sendMessage({
               text: '* Stock non-perishable food supplies, bottled water, a first-aid kit, a battery-powered radio, flashlights and extra batteries in air-tight containers. Use our hurricane grocery list to ensure you have everything you need.'
-            })
+            }, sender_psid)
             typingOn(sender_psid);
           }, 6000);
           setTimeout(() => {
             sendMessage({
               text: '* Have a non-electric analog telephone or a fully-charged cell phone available in case you need to make an emergency call during a power outage.'
-            })
+            }, sender_psid)
             typingOn(sender_psid);
           }, 8000)
           setTimeout(() => {
             sendMessage({
               text: '* Fill bathtubs and sinks with water to ensure you have enough to flush the toilet, cook, etc. in case of a power outage.'
-            })
+            }, sender_psid)
             typingOn(sender_psid);
           }, 10000)
           setTimeout(() => {
             sendMessage({
               text: '* Keep an eye on what to do by checking me out. If you need any help, just type “Help’ into the chatbox so I can notify the authorities. Wish you will be safe ☺️'
-            })
+            }, sender_psid)
             typingOn(sender_psid);
           }, 12000);
 
