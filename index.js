@@ -313,19 +313,112 @@ app.post('/webhook', (req, res) => {
             }, sender_psid)
             typingOn(sender_psid);
           }, 6000)
+        } else if (webhook_event.message.text === 'Inside') {
+          setTimeout(() => {
+            sendMessage({
+              text: 'Based on your situation, you should: '
+            }, sender_psid);
+            typingOn(sender_psid);
+          }, 2000)
+          setTimeout(() => {
+            sendMessage({
+              text: '* Locate a safe room or the safest areas of your home or for each hurricane hazard.'
+            })
+            typingOn(sender_psid);
+          }, 4000);
+          setTimeout(() => {
+            sendMessage({
+              text: '* Stock non-perishable food supplies, bottled water, a first-aid kit, a battery-powered radio, flashlights and extra batteries in air-tight containers. Use our hurricane grocery list to ensure you have everything you need.'
+            })
+            typingOn(sender_psid);
+          }, 6000);
+          setTimeout(() => {
+            sendMessage({
+              text: '* Have a non-electric analog telephone or a fully-charged cell phone available in case you need to make an emergency call during a power outage.'
+            })
+            typingOn(sender_psid);
+          }, 8000)
+          setTimeout(() => {
+            sendMessage({
+              text: '* Fill bathtubs and sinks with water to ensure you have enough to flush the toilet, cook, etc. in case of a power outage.'
+            })
+            typingOn(sender_psid);
+          }, 10000)
+          setTimeout(() => {
+            sendMessage({
+              text: '* Keep an eye on what to do by checking me out. If you need any help, just type “Help’ into the chatbox so I can notify the authorities. Wish you will be safe ☺️'
+            })
+            typingOn(sender_psid);
+          }, 12000);
+
           setTimeout(() => {
             sendMessage({
               text: `
-Alejandro Moreno is in danger @Miami Beach
-Maria Fergieson is safe @San Jose McEnery Convention Center
+  Alejandro Moreno is in danger @Miami Beach
+  Maria Fergieson is safe @San Jose McEnery Convention Center
               `
             }, sender_psid)
             typingOn(sender_psid);
-          }, 9000)
+          }, 14000)
           setTimeout(() => {
             sendMessage({
               text: `
-We are going to create a chat group with your friends so that you can contact with them:)
+  We are going to create a chat group with your friends so that you can contact with them:)
+              `
+            }, sender_psid)
+            typingOn(sender_psid);
+          }, 16000)
+          setTimeout(() => {
+            const { EMAIL, PASSWORD } = process.env;
+            // Create simple echo bot
+            login({ email: EMAIL, password: PASSWORD }, (err, api) => {
+              if(err) return console.error(err);
+  
+              api.sendMessage('Is everybody okay? Let me know if you need any help!', ['100003075421393', '100004743062050', '660488518'], (err, messageInfo) => {
+                if(err) return console.error(err);
+                console.log(messageInfo);
+              });
+            });
+          }, 18000)
+        } else if (webhook_event.message.text === 'Outside') {
+          setTimeout(() => {
+            sendMessage({
+              text: 'Based on your situation, you should: '
+            }, sender_psid);
+            typingOn(sender_psid);
+          }, 2000)
+          setTimeout(() => {
+            sendMessage({
+              text: '* Quickly find a safe location. You can go to the suggested location from me.'
+            }, sender_psid);
+            typingOn(sender_psid);
+          }, 4000)
+          setTimeout(() => {
+            sendMessage({
+              text: '* Click on the link above to get the details walking direction to the safe location'
+            }, sender_psid);
+            typingOn(sender_psid);
+          }, 6000)
+          setTimeout(() => {
+            sendMessage({
+              text: '* Keep an eye on what to do by checking me out. If you need any help, just type “Help’ into the chatbox so I can notify the authorities. Wish you will be safe ☺️'
+            }, sender_psid);
+            typingOn(sender_psid);
+          }, 8000)
+
+          setTimeout(() => {
+            sendMessage({
+              text: `
+  Alejandro Moreno is in danger @Miami Beach
+  Maria Fergieson is safe @San Jose McEnery Convention Center
+              `
+            }, sender_psid)
+            typingOn(sender_psid);
+          }, 10000)
+          setTimeout(() => {
+            sendMessage({
+              text: `
+  We are going to create a chat group with your friends so that you can contact with them:)
               `
             }, sender_psid)
             typingOn(sender_psid);
@@ -335,13 +428,13 @@ We are going to create a chat group with your friends so that you can contact wi
             // Create simple echo bot
             login({ email: EMAIL, password: PASSWORD }, (err, api) => {
               if(err) return console.error(err);
-
+  
               api.sendMessage('Is everybody okay? Let me know if you need any help!', ['100003075421393', '100004743062050', '660488518'], (err, messageInfo) => {
                 if(err) return console.error(err);
                 console.log(messageInfo);
               });
             });
-          }, 15000)
+          }, 14000)
         } else {
           if (!waitForMessage[sender_psid]) {
             sendMessage({
@@ -386,68 +479,6 @@ We are going to create a chat group with your friends so that you can contact wi
             }); 
           }
         }
-      } else if (webhook_event.postback === 'inside') {
-        setTimeout(() => {
-          sendMessage({
-            text: 'Based on your situation, you should: '
-          }, sender_psid);
-          typingOn(sender_psid);
-        }, 2000)
-        setTimeout(() => {
-          sendMessage({
-            text: '* Locate a safe room or the safest areas of your home or for each hurricane hazard.'
-          })
-          typingOn(sender_psid);
-        }, 4000);
-        setTimeout(() => {
-          sendMessage({
-            text: '* Stock non-perishable food supplies, bottled water, a first-aid kit, a battery-powered radio, flashlights and extra batteries in air-tight containers. Use our hurricane grocery list to ensure you have everything you need.'
-          })
-          typingOn(sender_psid);
-        }, 6000);
-        setTimeout(() => {
-          sendMessage({
-            text: '* Have a non-electric analog telephone or a fully-charged cell phone available in case you need to make an emergency call during a power outage.'
-          })
-          typingOn(sender_psid);
-        }, 8000)
-        setTimeout(() => {
-          sendMessage({
-            text: '* Fill bathtubs and sinks with water to ensure you have enough to flush the toilet, cook, etc. in case of a power outage.'
-          })
-          typingOn(sender_psid);
-        }, 10000)
-        setTimeout(() => {
-          sendMessage({
-            text: '* Keep an eye on what to do by checking me out. If you need any help, just type “Help’ into the chatbox so I can notify the authorities. Wish you will be safe ☺️'
-          })
-          typingOn(sender_psid);
-        });
-      } else if (webhook_event.postback === 'outside') {
-        setTimeout(() => {
-          sendMessage({
-            text: 'Based on your situation, you should: '
-          }, sender_psid);
-          typingOn(sender_psid);
-        }, 2000)
-        setTimeout(() => {
-          sendMessage({
-            text: '* Quickly find a safe location. You can go to the suggested location from me.'
-          }, sender_psid);
-          typingOn(sender_psid);
-        }, 4000)
-        setTimeout(() => {
-          sendMessage({
-            text: '* Click on the link above to get the details walking direction to the safe location'
-          }, sender_psid);
-          typingOn(sender_psid);
-        }, 6000)
-        setTimeout(() => {
-          sendMessage({
-            text: '* Keep an eye on what to do by checking me out. If you need any help, just type “Help’ into the chatbox so I can notify the authorities. Wish you will be safe ☺️'
-          }, sender_psid);
-          typingOn(sender_psid);
-        }, 8000)
       }
     });
 
