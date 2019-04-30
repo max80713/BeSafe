@@ -287,26 +287,8 @@ app.post('/webhook', (req, res) => {
       if (webhook_event.message) {
         console.log('message received')
         // Check if the message contains text
-        if (webhook_event.message.text === 'Where are you?') { 
-          const response = {
-            text: 'Miami'
-          }
-
-          sendMessage(response, sender_psid)
-          
-        } else if (webhook_event.message.attachments) {
+        if (webhook_event.message.attachments) {
           console.log(webhook_event.message.attachments[0]);
-          /* 
-          "title": "Facebook HQ",
-          "url": "https://www.facebook.com/l.php?u=https%....5-7Ocxrmg",
-          "type": "location",
-          "payload": {
-            "coordinates": {
-              "lat": 37.483872693672,
-              "long": -122.14900441942
-            }
-          }
-          */
           setTimeout(() => {
             sendMessage({
               text: 'You are near the hurricane!'
@@ -315,13 +297,19 @@ app.post('/webhook', (req, res) => {
           }, 3000)
           setTimeout(() => {
             sendMessage({
-              text: `Take the advice of local authorities. Evacuate if ordered.
-If an evacuation is necessary, unplug all appliances, TV's and computers before leaving your home.
-If possible, move important items to a higher floor or surface such as a counter or shelf to protect expensive equipment from flooding. Remove fuses from the air conditioning system to prevent damage.
-Turn off water to prevent flooding from broken pipes.
-Turn off gas to prevent leaks from occurring.
-Ensure your car is in good running condition and has a full tank of gas, extra emergency supplies and a change of clothes.
-Determine escape routes from your home and a nearby place to meet with loved ones. These should be measured in tens of miles when possible`
+              "text": "Are you inside or outside?",
+              "quick_replies":[
+                {
+                  "content_type":"text",
+                  "title":"Inside",
+                  "payload":"inside",
+                },
+                {
+                  "content_type":"text",
+                  "title":"Outside",
+                  "payload":"outside",
+                },
+              ]
             }, sender_psid)
             typingOn(sender_psid);
           }, 6000)
@@ -334,44 +322,6 @@ Maria Fergieson is safe @San Jose McEnery Convention Center
             }, sender_psid)
             typingOn(sender_psid);
           }, 9000)
-          // sendMessage({
-          //   attachment: {
-          //     "type": "template",
-          //     "payload": {
-          //       "template_type": "list",
-          //       "top_element_style": "compact",
-          //       "elements": [
-          //         {
-          //           "title": "Quang Ngoc",
-          //           "subtitle": "Safe @San Jose McEnery Convention Center",
-          //           "image_url": "https://scontent-sjc3-1.xx.fbcdn.net/v/t1.0-1/p320x320/52585213_1951969804915515_4222149892182638592_n.jpg?_nc_cat=111&_nc_ht=scontent-sjc3-1.xx&oh=d390db93f5df74da573a1b9e981a71ef&oe=5D34BD14",          
-          //           "default_action": {
-          //             "type": "web_url",
-          //             "url": "https://www.facebook.com/qn.khuat",
-          //             "messenger_extensions": true,
-          //             "webview_height_ratio": "tall"
-          //           }
-          //         },
-          //         {
-          //           "title": "Phong Vũ",
-          //           "subtitle": "In danger @Miami Beach",
-          //           "image_url": "https://scontent-sjc3-1.xx.fbcdn.net/v/t1.0-1/p320x320/50442205_10156196260348519_917678904490065920_n.jpg?_nc_cat=104&_nc_ht=scontent-sjc3-1.xx&oh=2c6584304db5ff939b4965b0b5238b30&oe=5D2CB267",          
-          //           "default_action": {
-          //             "type": "web_url",
-          //             "url": "https://www.facebook.com/iphongx",
-          //             "messenger_extensions": true,
-          //             "webview_height_ratio": "tall"
-          //           }
-          //         },
-          //       ],
-          //       "buttons": [{
-          //         "title": "Show More Friends",
-          //         "type": "postback",
-          //         "payload": "show_more_friends"            
-          //       }]  
-          //     }
-          //   }
-          // }, sender_psid)
           setTimeout(() => {
             sendMessage({
               text: `
@@ -436,11 +386,68 @@ We are going to create a chat group with your friends so that you can contact wi
             }); 
           }
         }
-      } else if (webhook_event.postback) {
-        sendMessage({
-          text: 'How can I help you?'
-        }, sender_psid);
-        // handlePostback(sender_psid, webhook_event.postback);
+      } else if (webhook_event.postback === 'inside') {
+        setTimeout(() => {
+          sendMessage({
+            text: 'Based on your situation, you should: '
+          }, sender_psid);
+          typingOn(sender_psid);
+        }, 2000)
+        setTimeout(() => {
+          sendMessage({
+            text: '* Locate a safe room or the safest areas of your home or for each hurricane hazard.'
+          })
+          typingOn(sender_psid);
+        }, 4000);
+        setTimeout(() => {
+          sendMessage({
+            text: '* Stock non-perishable food supplies, bottled water, a first-aid kit, a battery-powered radio, flashlights and extra batteries in air-tight containers. Use our hurricane grocery list to ensure you have everything you need.'
+          })
+          typingOn(sender_psid);
+        }, 6000);
+        setTimeout(() => {
+          sendMessage({
+            text: '* Have a non-electric analog telephone or a fully-charged cell phone available in case you need to make an emergency call during a power outage.'
+          })
+          typingOn(sender_psid);
+        }, 8000)
+        setTimeout(() => {
+          sendMessage({
+            text: '* Fill bathtubs and sinks with water to ensure you have enough to flush the toilet, cook, etc. in case of a power outage.'
+          })
+          typingOn(sender_psid);
+        }, 10000)
+        setTimeout(() => {
+          sendMessage({
+            text: '* Keep an eye on what to do by checking me out. If you need any help, just type “Help’ into the chatbox so I can notify the authorities. Wish you will be safe ☺️'
+          })
+          typingOn(sender_psid);
+        });
+      } else if (webhook_event.postback === 'outside') {
+        setTimeout(() => {
+          sendMessage({
+            text: 'Based on your situation, you should: '
+          }, sender_psid);
+          typingOn(sender_psid);
+        }, 2000)
+        setTimeout(() => {
+          sendMessage({
+            text: '* Quickly find a safe location. You can go to the suggested location from me.'
+          }, sender_psid);
+          typingOn(sender_psid);
+        }, 4000)
+        setTimeout(() => {
+          sendMessage({
+            text: '* Click on the link above to get the details walking direction to the safe location'
+          }, sender_psid);
+          typingOn(sender_psid);
+        }, 6000)
+        setTimeout(() => {
+          sendMessage({
+            text: '* Keep an eye on what to do by checking me out. If you need any help, just type “Help’ into the chatbox so I can notify the authorities. Wish you will be safe ☺️'
+          }, sender_psid);
+          typingOn(sender_psid);
+        }, 8000)
       }
     });
 
